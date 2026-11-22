@@ -1,27 +1,24 @@
-
 /*
-    Welcome to your first dbt model!
-    Did you know that you can also configure models directly within SQL files?
-    This will override configurations stated in dbt_project.yml
-
-    Try changing "table" to "view" below
+    First model: a small set of rows with an id and a second_id.
+    Materialized as a table (overrides the 'view' default in dbt_project.yml).
 */
 
 {{ config(materialized='table') }}
 
 with source_data as (
 
-    select 1 as id
+    select 1 as id, 101 as second_id
     union all
-    select null as id
+    select 2 as id, 102 as second_id
+    union all
+    select 3 as id, 103 as second_id
+    union all
+    select 4 as id, 104 as second_id
+    union all
+    select 5 as id, 105 as second_id
 
 )
 
 select *
 from source_data
-
-/*
-    Uncomment the line below to remove records with null `id` values
-*/
-
 where id is not null

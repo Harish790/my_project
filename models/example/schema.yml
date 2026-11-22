@@ -10,6 +10,11 @@ models:
         data_tests:
           - unique
           - not_null
+      - name: second_id
+        description: "A second identifier for each row"
+        data_tests:
+          - unique
+          - not_null
 
   - name: my_second_dbt_model
     description: "A starter dbt model"
