@@ -1,0 +1,50 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw data loaded from Excel by scripts/load_excel_to_raw.py"
+    schema: raw
+    tables:
+      - name: customers
+        description: "One row per customer (Excel sheet: customers)"
+      - name: orders
+        description: "One row per order (Excel sheet: orders)"
+
+models:
+  - name: stg_customers
+    description: "Cleaned customers from raw.customers"
+    columns:
+      - name: customer_id
+        description: "Primary key"
+        data_tests:
+          - unique
+          - not_null
+      - name: email
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_orders
+    description: "Cleaned orders from raw.orders"
+    columns:
+      - name: order_id
+        description: "Primary key"
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "Foreign key to stg_customers"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
+      - name: status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['placed', 'shipped', 'completed', 'returned']
+      - name: amount
+        data_tests:
+          - not_null
