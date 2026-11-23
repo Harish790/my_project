@@ -5,7 +5,7 @@ with source as (
     select * from {{ source('raw', 'customers') }}
 
 ),
-
+--testing comment
 renamed as (
 
     select
